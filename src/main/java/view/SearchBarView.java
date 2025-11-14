@@ -10,17 +10,18 @@ public class SearchBarView extends JPanel {
     private Color focusBorderColor = new Color(180, 180, 180);
     private Color backgroundColor = new Color(250, 250, 250);
     private boolean isFocused = false;
+    private String searchDescription = null;
 
 
-    public SearchBarView() {
+    public SearchBarView(String text) {
         setLayout(new BorderLayout());
         setPreferredSize(new Dimension(600, 60));
         setOpaque(false);
-
-        initComponents();
+        this.searchDescription = text;
+        add(initComponents(searchDescription));
     }
 
-    private void initComponents() {
+    private JPanel initComponents(String text) {
         JPanel container = new JPanel(new BorderLayout()) {
             @Override
             protected void paintComponent(Graphics g) {
@@ -56,7 +57,7 @@ public class SearchBarView extends JPanel {
                     g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
                     g2.setColor(new Color(170, 170, 170));
                     g2.setFont(getFont());
-                    g2.drawString("Search an event!", 5, getHeight() / 2 + 6);
+                    g2.drawString(text, 5, getHeight() / 2 + 6);
                     g2.dispose();
                 }
             }
@@ -67,7 +68,7 @@ public class SearchBarView extends JPanel {
         searchField.setForeground(new Color(100, 100, 100));
 
         container.add(searchField, BorderLayout.CENTER);
-
+        return container;
     }
 
 
