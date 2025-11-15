@@ -26,7 +26,7 @@ public class SearchEventByNameController {
     }
 
     /**
-     * Executes the "switch to LoginView" Use Case.
+     * Executes the "switch to DashboardView" Use Case.
      */
     public void switchToDashboardView() {
         searchEventByNameInteractor.switchToDashboardView();
