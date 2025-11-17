@@ -8,7 +8,7 @@ public class EventDescriptionOutputData {
     private final String address;
     private final String category;
     private final String dateTime;
-    // currently missing private final double distanceKm => need to calculate 
+    // currently missing private final double distanceKm => need to calculate
 
     public EventDescriptionOutputData(String id,
                                       String name,
