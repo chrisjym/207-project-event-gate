@@ -40,6 +40,7 @@ public class SaveEventsView extends JPanel implements PropertyChangeListener {
         JScrollPane scrollPane = new JScrollPane(eventsContainer);
         scrollPane.setBorder(null);
         scrollPane.getVerticalScrollBar().setUnitIncrement(16);
+        add(scrollPane);
 
     }
 
@@ -92,7 +93,151 @@ public class SaveEventsView extends JPanel implements PropertyChangeListener {
         ));
         card.setMaximumSize(new Dimension(Integer.MAX_VALUE, 140));
 
+        JPanel imagePanel = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Graphics2D g2 = (Graphics2D) g;
+                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+                Color categoryColor = getCategoryColor(event.getCategory());
+                GradientPaint gradient = new GradientPaint(
+                        0, 0, categoryColor.darker(),
+                        getWidth(), getHeight(), categoryColor
+                );
+                g2.setPaint(gradient);
+                g2.fillRoundRect(0, 0, getWidth(), getHeight(), 12, 12);
+
+                g2.setColor(Color.WHITE);
+                g2.setFont(new Font("Segoe UI", Font.BOLD, 36));
+                FontMetrics fm = g2.getFontMetrics();
+                String icon = "Event";
+                int x = (getWidth() - fm.stringWidth(icon)) / 2;
+                int y = (getHeight() + fm.getAscent()) / 2 - 4;
+                g2.drawString(icon, x, y);
+            }
+        };
+        imagePanel.setPreferredSize(new Dimension(100, 100));
+        imagePanel.setOpaque(false);
+
+        JPanel detailsPanel = new JPanel();
+        detailsPanel.setLayout(new BoxLayout(detailsPanel, BoxLayout.Y_AXIS));
+        detailsPanel.setOpaque(false);
+
+        Color categoryColor = getCategoryColor(event.getCategory());
+        JLabel categoryLabel = new JLabel(event.getCategory().toString());
+        categoryLabel.setFont(new Font("Segoe UI", Font.BOLD, 11));
+        categoryLabel.setForeground(categoryColor);
+        categoryLabel.setOpaque(true);
+        categoryLabel.setBackground(new Color(categoryColor.getRed(),
+                categoryColor.getGreen(),
+                categoryColor.getBlue(), 40));
+        categoryLabel.setBorder(new EmptyBorder(4, 10, 4, 10));
+        categoryLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+        JLabel nameLabel = new JLabel(event.getName());
+        nameLabel.setFont(new Font("Segoe UI", Font.BOLD, 18));
+        nameLabel.setForeground(new Color(17, 24, 39));
+        nameLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+        JLabel dateLabel = new JLabel("Date: " + event.getStartTime().toString());
+        dateLabel.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        dateLabel.setForeground(new Color(107, 114, 128));
+        dateLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+        // Location
+        JLabel locationLabel = new JLabel("Venue: " + event.getLocation().toString());
+        locationLabel.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        locationLabel.setForeground(new Color(107, 114, 128));
+        locationLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+        detailsPanel.add(categoryLabel);
+        detailsPanel.add(Box.createVerticalStrut(8));
+        detailsPanel.add(nameLabel);
+        detailsPanel.add(Box.createVerticalStrut(6));
+        detailsPanel.add(dateLabel);
+        detailsPanel.add(Box.createVerticalStrut(4));
+        detailsPanel.add(locationLabel);
+
+        // Right: Action buttons
+        JPanel actionsPanel = new JPanel();
+        actionsPanel.setLayout(new BoxLayout(actionsPanel, BoxLayout.Y_AXIS));
+        actionsPanel.setOpaque(false);
+
+        JButton viewButton = createActionButton("View Details", new Color(59, 130, 246), false);
+        JButton removeButton = createActionButton("Remove", new Color(239, 68, 68), true);
+
+        viewButton.addActionListener(e -> {
+            JOptionPane.showMessageDialog(this,
+                    "Opening details for: " + event.getName(),
+                    "Event Details",
+                    JOptionPane.INFORMATION_MESSAGE);
+        });
+
+        removeButton.addActionListener(e -> {
+            int result = JOptionPane.showConfirmDialog(this,
+                    "Remove \"" + event.getName() + "\" from saved events?",
+                    "Confirm Removal",
+                    JOptionPane.YES_NO_OPTION);
+
+            if (result == JOptionPane.YES_OPTION) {
+                savedEvents.remove(event);
+                refreshEventsList();
+            }
+        });
+
+        card.add(imagePanel, BorderLayout.WEST);
+        card.add(detailsPanel, BorderLayout.CENTER);
+        card.add(actionsPanel, BorderLayout.EAST);
+
         return card;
+    }
+
+    private JButton createActionButton(String text, Color color, boolean isRemove) {
+        JButton button = new JButton(text);
+        button.setFont(new Font("Segoe UI", Font.BOLD, 12));
+        button.setForeground(Color.WHITE);
+        button.setBackground(color);
+        button.setBorder(BorderFactory.createEmptyBorder(8, 16, 8, 16));
+        button.setFocusPainted(false);
+        button.setCursor(new Cursor(Cursor.HAND_CURSOR));
+
+        button.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                button.setBackground(color.darker());
+            }
+
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                button.setBackground(color);
+            }
+        });
+
+        return button;
+    }
+
+    private Color getCategoryColor(EventCategory category) {
+        switch (category) {
+            case MUSIC:
+                return new Color(147, 51, 234); // Purple
+            case SPORTS:
+                return new Color(59, 130, 246); // Blue
+            case ARTS_THEATRE:
+                return new Color(236, 72, 153); // Pink
+            case FAMILY:
+                return new Color(34, 197, 94); // Green
+            case BUSINESS:
+                return new Color(251, 146, 60); // Orange
+            case MISCELLANEOUS:
+            default:
+                return new Color(107, 114, 128); // Gray
+        }
+    }
+
+    public void addSavedEvent(Event event) {
+        if (!savedEvents.contains(event)) {
+            savedEvents.add(event);
+            refreshEventsList();
+        }
     }
 
     @Override
