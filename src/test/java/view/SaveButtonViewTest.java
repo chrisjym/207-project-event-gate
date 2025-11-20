@@ -1,5 +1,7 @@
 package view;
 
+import entity.Event;
+
 import javax.swing.*;
 
 public class SaveButtonViewTest {

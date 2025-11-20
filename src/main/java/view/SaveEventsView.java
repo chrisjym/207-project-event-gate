@@ -159,13 +159,12 @@ public class SaveEventsView extends JPanel implements PropertyChangeListener {
         detailsPanel.add(Box.createVerticalStrut(4));
         detailsPanel.add(locationLabel);
 
-        // Right: Action buttons
         JPanel actionsPanel = new JPanel();
         actionsPanel.setLayout(new BoxLayout(actionsPanel, BoxLayout.Y_AXIS));
         actionsPanel.setOpaque(false);
 
-        JButton viewButton = createActionButton("View Details", new Color(59, 130, 246), false);
-        JButton removeButton = createActionButton("Remove", new Color(239, 68, 68), true);
+        JButton viewButton = createActionButton("View Details", new Color(59, 130, 246));
+        JButton removeButton = createActionButton("Remove", new Color(239, 68, 68));
 
         viewButton.addActionListener(e -> {
             JOptionPane.showMessageDialog(this,
@@ -193,7 +192,7 @@ public class SaveEventsView extends JPanel implements PropertyChangeListener {
         return card;
     }
 
-    private JButton createActionButton(String text, Color color, boolean isRemove) {
+    private JButton createActionButton(String text, Color color) {
         JButton button = new JButton(text);
         button.setFont(new Font("Segoe UI", Font.BOLD, 12));
         button.setForeground(Color.WHITE);

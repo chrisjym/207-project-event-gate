@@ -31,6 +31,6 @@ public class SaveEventInteractor implements SaveEventInputBoundary {
     }
 
     public List<Event> getSavedEvents() {
-        return new ArrayList<>(savedEvents); // Return a copy to maintain encapsulation
+        return new ArrayList<>(savedEvents);
     }
 }

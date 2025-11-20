@@ -1,5 +1,7 @@
 package view;
 
+import entity.Event;
+import interface_adapter.save_button.SaveButtonController;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -11,10 +13,11 @@ public class SaveButtonView extends JPanel {
 
     private final String viewName = "save";
     private JButton saveButton = null;
+    private Event event;
+    private SaveButtonController saveButtonController;
 
 
     public SaveButtonView() {
-
         Color base = new Color(59, 130, 246);
 
         saveButton = new JButton("Save Event");
@@ -77,9 +80,22 @@ public class SaveButtonView extends JPanel {
         saveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Hello!");
+                if (saveButtonController != null && event != null) {
+                    saveButtonController.execute(event);
+
+                    saveButton.setText("Saved ✓");
+                    saveButton.setEnabled(false);
+                }
             }
         });
+    }
+
+    public void setEvent(Event event) {
+        this.event = event;
+    }
+
+    public void setSaveEventController(SaveButtonController controller) {
+        this.saveButtonController = controller;
     }
 
 }
