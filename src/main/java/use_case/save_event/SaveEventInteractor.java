@@ -30,6 +30,11 @@ public class SaveEventInteractor implements SaveEventInputBoundary {
         }
     }
 
+    @Override
+    public void switchToDashboardView() {
+        eventPresenter.switchToDashboardView();
+    }
+
     public List<Event> getSavedEvents() {
         return new ArrayList<>(savedEvents);
     }

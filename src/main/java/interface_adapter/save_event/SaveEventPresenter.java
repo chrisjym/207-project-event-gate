@@ -1,14 +1,19 @@
 package interface_adapter.save_event;
 
+import interface_adapter.ViewManagerModel;
 import use_case.save_event.SaveEventOutputBoundary;
 import use_case.save_event.SaveEventOutputData;
+
+import java.awt.*;
 
 public class SaveEventPresenter implements SaveEventOutputBoundary {
 
     private final SaveEventViewModel saveEventViewModel;
+    private final ViewManagerModel viewManagerModel;
 
-    public SaveEventPresenter(SaveEventViewModel saveEventViewModel) {
+    public SaveEventPresenter(SaveEventViewModel saveEventViewModel, ViewManagerModel viewManagerModel) {
         this.saveEventViewModel = saveEventViewModel;
+        this.viewManagerModel = viewManagerModel;
     }
 
     @Override
@@ -26,4 +31,12 @@ public class SaveEventPresenter implements SaveEventOutputBoundary {
         saveEventViewModel.setState(currentState);
         saveEventViewModel.firePropertyChange("error");
     }
+
+    @Override
+    public void switchToDashboardView() {
+        viewManagerModel.setState("search"); // or whatever the dashboard view name is
+        viewManagerModel.firePropertyChange();
+    }
+
+
 }

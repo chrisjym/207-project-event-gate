@@ -15,4 +15,8 @@ public class SaveEventController {
         SaveEventInputData inputData = new SaveEventInputData(event);
         saveEventUseCase.execute(inputData);
     }
+
+    public void switchToDashboardView() {
+        saveEventUseCase.switchToDashboardView();
+    }
 }

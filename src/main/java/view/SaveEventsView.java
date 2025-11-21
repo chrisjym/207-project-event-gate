@@ -1,6 +1,8 @@
 package view;
 
 import entity.Event;
+import entity.EventCategory;
+import interface_adapter.save_event.SaveEventController;
 import interface_adapter.save_event.SaveEventViewModel;
 
 import javax.swing.*;
@@ -17,6 +19,7 @@ public class SaveEventsView extends JPanel implements PropertyChangeListener {
     private SaveEventViewModel saveEventsViewModel = null;
     private List<Event> savedEvents = new ArrayList<>();
     private JPanel eventsContainer;
+    private SaveEventController saveEventController = null;
 
     public SaveEventsView(SaveEventViewModel saveEventsViewModel) {
         this.saveEventsViewModel = saveEventsViewModel;
@@ -46,15 +49,31 @@ public class SaveEventsView extends JPanel implements PropertyChangeListener {
 
     private JPanel createHeader() {
         JPanel header = new JPanel(new BorderLayout());
-        header.setBackground(new Color(249, 250, 251));
-        header.setBorder(new EmptyBorder(20, 40, 10, 40));
+        header.setBackground(Color.WHITE);
+        header.setBorder(new CompoundBorder(
+                new MatteBorder(0, 0, 1, 0, new Color(229, 231, 235)),
+                new EmptyBorder(20, 40, 20, 40)
+        ));
 
         JLabel title = new JLabel("My Saved Events");
+
         title.setFont(new Font("SegoeUI", Font.BOLD, 24));
-        title.setForeground(Color.WHITE);
+        title.setForeground(new Color(17, 24, 39));
         title.setOpaque(false);
 
-        header.add(title);
+        JButton backButton = new JButton("← Back to Events");
+        backButton.setFont(new Font("SegoeUI", Font.PLAIN, 13));
+        backButton.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+        backButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                saveEventController.switchToDashboardView();
+            }
+        });
+
+        header.add(title, BorderLayout.WEST);
+        header.add(backButton, BorderLayout.EAST);
         return header;
 
     }
@@ -146,7 +165,7 @@ public class SaveEventsView extends JPanel implements PropertyChangeListener {
         dateLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
 
         // Location
-        JLabel locationLabel = new JLabel("Venue: " + event.getLocation().toString());
+        JLabel locationLabel = new JLabel("Venue: " + event.getLocation().getAddress());
         locationLabel.setFont(new Font("Segoe UI", Font.PLAIN, 14));
         locationLabel.setForeground(new Color(107, 114, 128));
         locationLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -163,15 +182,12 @@ public class SaveEventsView extends JPanel implements PropertyChangeListener {
         actionsPanel.setLayout(new BoxLayout(actionsPanel, BoxLayout.Y_AXIS));
         actionsPanel.setOpaque(false);
 
-        JButton viewButton = createActionButton("View Details", new Color(59, 130, 246));
-        JButton removeButton = createActionButton("Remove", new Color(239, 68, 68));
 
-        viewButton.addActionListener(e -> {
-            JOptionPane.showMessageDialog(this,
-                    "Opening details for: " + event.getName(),
-                    "Event Details",
-                    JOptionPane.INFORMATION_MESSAGE);
-        });
+        JButton removeButton = createActionButton("Remove", new Color(239, 68, 68));
+        removeButton.setBorder(new CompoundBorder(
+                new LineBorder(new Color(229, 231, 235), 1, true),
+                new EmptyBorder(5, 20, 5, 20)
+        ));
 
         removeButton.addActionListener(e -> {
             int result = JOptionPane.showConfirmDialog(this,
@@ -185,6 +201,9 @@ public class SaveEventsView extends JPanel implements PropertyChangeListener {
             }
         });
 
+        actionsPanel.add(Box.createVerticalStrut(35));
+        actionsPanel.add(removeButton);
+
         card.add(imagePanel, BorderLayout.WEST);
         card.add(detailsPanel, BorderLayout.CENTER);
         card.add(actionsPanel, BorderLayout.EAST);
@@ -195,8 +214,8 @@ public class SaveEventsView extends JPanel implements PropertyChangeListener {
     private JButton createActionButton(String text, Color color) {
         JButton button = new JButton(text);
         button.setFont(new Font("Segoe UI", Font.BOLD, 12));
-        button.setForeground(Color.WHITE);
-        button.setBackground(color);
+        button.setForeground(color);
+        button.setBackground(Color.WHITE);
         button.setBorder(BorderFactory.createEmptyBorder(8, 16, 8, 16));
         button.setFocusPainted(false);
         button.setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -222,10 +241,6 @@ public class SaveEventsView extends JPanel implements PropertyChangeListener {
                 return new Color(59, 130, 246); // Blue
             case ARTS_THEATRE:
                 return new Color(236, 72, 153); // Pink
-            case FAMILY:
-                return new Color(34, 197, 94); // Green
-            case BUSINESS:
-                return new Color(251, 146, 60); // Orange
             case MISCELLANEOUS:
             default:
                 return new Color(107, 114, 128); // Gray
@@ -246,6 +261,10 @@ public class SaveEventsView extends JPanel implements PropertyChangeListener {
         } else if ("error".equals(evt.getPropertyName())) {
             System.out.println("Event was null, floundering...");
         }
+    }
+
+    public void setSaveEventController(SaveEventController saveEventController) {
+        this.saveEventController = saveEventController;
     }
 
 }

@@ -15,4 +15,9 @@ public interface SaveEventOutputBoundary {
      */
     void prepareFailureView(String errorMessage);
 
+    /**
+     * Switches to dashboard view for the use case
+     */
+    void switchToDashboardView();
+
 }

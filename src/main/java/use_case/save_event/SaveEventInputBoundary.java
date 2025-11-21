@@ -8,4 +8,9 @@ public interface SaveEventInputBoundary {
      * @param inputData the input data
      */
     void execute(SaveEventInputData inputData);
+
+    /**
+     * Executes switch to dashboard view use case
+     */
+    void switchToDashboardView();
 }
