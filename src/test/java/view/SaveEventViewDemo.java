@@ -18,6 +18,7 @@ import java.time.format.DateTimeFormatter;
 /**
  * Visual demo to test the SaveButtonView and SaveEventsView integration
  * Run this to see the complete save event workflow
+ * WRITTEN BY GENAI for DEMO purposes only, not in final submission
  */
 public class SaveEventViewDemo {
 
