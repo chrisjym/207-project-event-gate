@@ -15,11 +15,13 @@ public class Main {
                 .addLoginView()
                 .addSignupView()
                 .addLoggedInView()
+                .addEventDescriptionView()       // NEW
                 .addEventSearchView()
                 .addSignupUseCase()
                 .addLoginUseCase()
                 .addChangePasswordUseCase()
                 .addLogoutUseCase()
+                .addEventDescriptionUseCase()    // NEW
                 .build();
 
         application.pack();
