@@ -60,7 +60,6 @@ public class SaveEventViewDemo {
             mainPanel.add(browsePanel, "browse");
             mainPanel.add(saveEventsView, "saved");
 
-            // Override presenter to handle view switching
             viewManagerModel.addPropertyChangeListener(evt -> {
                 if ("state".equals(evt.getPropertyName())) {
                     cardLayout.show(mainPanel, "browse");

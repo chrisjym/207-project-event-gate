@@ -52,16 +52,16 @@ public class SaveEventsView extends JPanel implements PropertyChangeListener {
 
     private JPanel createHeader() {
         JPanel header = new JPanel(new BorderLayout());
-        header.setBackground(Color.WHITE);
+        header.setBackground(new Color(13, 133, 251));
         header.setBorder(new CompoundBorder(
-                new MatteBorder(0, 0, 1, 0, new Color(229, 231, 235)),
+                new MatteBorder(0, 0, 1, 0, new Color(10, 103, 198)),
                 new EmptyBorder(20, 40, 20, 40)
         ));
 
         JLabel title = new JLabel("My Saved Events");
 
         title.setFont(new Font("SegoeUI", Font.BOLD, 24));
-        title.setForeground(new Color(17, 24, 39));
+        title.setForeground(Color.WHITE);
         title.setOpaque(false);
 
         JButton backButton = new JButton("← Back to Events");

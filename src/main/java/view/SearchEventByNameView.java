@@ -220,3 +220,4 @@ public class SearchEventByNameView extends JPanel implements PropertyChangeListe
         this.eventController = controller;
     }
 }
+
