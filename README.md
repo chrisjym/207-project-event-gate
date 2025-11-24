@@ -1,9 +1,9 @@
 #csc-207-project-event-discovery
 207 Final Project
 
-#TODOs
+# TODOs
 
-#File Structure
+# File Structure
 
 #Contributors:
 1. Christopher Mong
