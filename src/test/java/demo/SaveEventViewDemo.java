@@ -1,4 +1,4 @@
-package view;
+package demo;
 
 import data_access.FileSavedEventsDataAccessObject;
 import entity.Event;
@@ -10,6 +10,8 @@ import interface_adapter.save_event.SaveEventPresenter;
 import interface_adapter.save_event.SaveEventViewModel;
 import use_case.login.LoginUserDataAccessInterface;
 import use_case.save_event.SaveEventInteractor;
+import view.SaveButtonView;
+import view.SaveEventsView;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -19,7 +21,7 @@ import java.time.LocalDateTime;
 /**
  * Visual demo to test the SaveButtonView and SaveEventsView integration with file persistence
  * Run this to see the complete save event workflow with data persistence
- * WRITTEN BY GENAI for DEMO purposes only, not in final submission
+ * WRITTEN BY GENAI for DEMO purposes only
  */
 public class SaveEventViewDemo {
 

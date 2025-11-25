@@ -1,6 +1,7 @@
-package entity;
+package demo;
 
 
+import entity.Location;
 import view.SearchBarView;
 import javax.swing.*;
 

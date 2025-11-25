@@ -1,4 +1,4 @@
-package use_case;
+package demo;
 
 import data_access.EventDataAccessObject;
 import entity.Event;
@@ -29,7 +29,7 @@ import java.util.List;
 /**
  * Test application that demonstrates search bar -> event view flow
  */
-public class SearchToEventViewTest {
+public class SearchToEventViewDemo {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {

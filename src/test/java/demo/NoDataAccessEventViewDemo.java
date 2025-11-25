@@ -1,4 +1,4 @@
-package entity;
+package demo;
 
 import interface_adapter.login.LoginViewModel;
 import use_case.search_event_by_name.SearchEventByNameDataAccessInterface;
@@ -20,7 +20,7 @@ import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TestEventView {
+public class NoDataAccessEventViewDemo {
     public static void main(String[] args) {
         JFrame frame = new JFrame("Event View Test");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

@@ -1,10 +1,10 @@
-package view;
+package demo;
 
-import entity.Event;
+import view.SaveButtonView;
 
 import javax.swing.*;
 
-public class SaveButtonViewTest {
+public class SaveButtonViewDemo {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             JFrame frame = new JFrame("SaveButtonView Demo");

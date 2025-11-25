@@ -50,7 +50,6 @@ public class SearchEventByNameView extends JPanel implements PropertyChangeListe
         mainPanel.setBorder(BorderFactory.createEmptyBorder(30, 30, 30, 30));
         mainPanel.setPreferredSize(new Dimension(400, 700));
 
-        // Back Button
         JButton backButton = new JButton("← Back to Events");
         backButton.setFont(new Font("SegoeUI", Font.PLAIN, 13));
         backButton.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -66,7 +65,6 @@ public class SearchEventByNameView extends JPanel implements PropertyChangeListe
             }
         });
 
-        // Category Label
         categoryLabel = new JLabel("Loading");
         categoryLabel.setFont(new Font("SegoeUI", Font.BOLD, 11));
         categoryLabel.setForeground(new Color(59, 130, 246));
@@ -77,20 +75,17 @@ public class SearchEventByNameView extends JPanel implements PropertyChangeListe
         mainPanel.add(categoryLabel);
         mainPanel.add(Box.createVerticalStrut(12));
 
-        // Name Label
         nameLabel = new JLabel("<html>Loading Event...</html>");
         nameLabel.setFont(new Font("SegoeUI", Font.BOLD, 32));
         nameLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
         mainPanel.add(nameLabel);
         mainPanel.add(Box.createVerticalStrut(12));
 
-        // Date Row
         JPanel dateRow = createRow("Date:", "");
         dateLabel = (JLabel) dateRow.getComponent(1);
         mainPanel.add(dateRow);
         mainPanel.add(Box.createVerticalStrut(12));
 
-        // Venue Row
         JPanel venueRow = createRow("Venue:", "");
         venueLabel = (JLabel) venueRow.getComponent(1);
         mainPanel.add(venueRow);
@@ -190,24 +185,23 @@ public class SearchEventByNameView extends JPanel implements PropertyChangeListe
         Event event = searchEventByNameViewModel.getEvent();
 
         if (event != null) {
-            // Update category
             categoryLabel.setText(event.getCategory().getDisplayName());
 
-            // Update name
             nameLabel.setText("<html>" + event.getName().replace(" ", "<br/>") + "</html>");
 
-            // Update date
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM dd, yyyy");
             dateLabel.setText(event.getStartTime().format(formatter));
 
-            // Update venue
-            venueLabel.setText(event.getLocation().getAddress());
 
-            // Update description
+            String venueText = event.getLocation().getAddress();
+            if (venueText.length() > 50) {
+                venueText = venueText.substring(0, 47) + "...";
+            }
+            venueLabel.setText(venueText);
+
             String desc = event.getDescription();
             descArea.setText(desc.isEmpty() ? "No description available" : desc);
 
-            // Update image
             updateImagePanel(event.getImageUrl());
         }
     }
