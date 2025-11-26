@@ -134,8 +134,6 @@ public class Event {
         return imageUrl;
     }
 
-    // ---- Core business methods ----
-
     // Check if event is within specified radius of a user location
     public boolean isWithinRadius(Location userLocation, double radiusKm) {
         if (userLocation == null || radiusKm < 0) {
@@ -157,8 +155,6 @@ public class Event {
     public boolean isInCategory(EventCategory targetCategory) {
         return this.category == targetCategory;
     }
-
-    // ---- equals / hashCode / toString ----
 
     @Override
     public boolean equals(Object o) {
