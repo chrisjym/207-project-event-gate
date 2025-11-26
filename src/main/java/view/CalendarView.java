@@ -20,7 +20,7 @@ public class  CalendarView extends JPanel implements ActionListener {
     private final JPanel dayPanel = new JPanel(new GridLayout(6, 7, 5, 5));
     private final JButton[] dayButtons = new JButton[42];
     private YearMonth currentYearMonth; // Track which month in which year we're displaying
-    private String textFormat = "Times New Roman";
+    private String textFormat = "SegoeUI";
 
     private CalendarFlowController calendarFlowController;
     private Location userLocation;

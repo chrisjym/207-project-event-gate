@@ -1,8 +1,12 @@
 package app;
 
 import data_access.FileUserDataAccessObject;
+import data_access.CalendarFlowDataAccessObject;
 import entity.UserFactory;
 import interface_adapter.ViewManagerModel;
+import interface_adapter.calendarFlow.CalendarFlowViewModel;
+import interface_adapter.calendarFlow.CalendarFlowPresenter;
+import interface_adapter.calendarFlow.CalendarFlowController;
 import interface_adapter.logged_in.ChangePasswordController;
 import interface_adapter.logged_in.ChangePasswordPresenter;
 import interface_adapter.logged_in.LoggedInViewModel;
@@ -14,6 +18,10 @@ import interface_adapter.logout.LogoutPresenter;
 import interface_adapter.signup.SignupController;
 import interface_adapter.signup.SignupPresenter;
 import interface_adapter.signup.SignupViewModel;
+import use_case.calendarFlow.CalendarFlowInputBoundary;
+import use_case.calendarFlow.CalendarFlowInteractor;
+import use_case.calendarFlow.CalendarFlowOutputBoundary;
+import use_case.calendarFlow.CalendarFlowDataAccessInterface;
 import use_case.change_password.ChangePasswordInputBoundary;
 import use_case.change_password.ChangePasswordInteractor;
 import use_case.change_password.ChangePasswordOutputBoundary;
@@ -26,10 +34,7 @@ import use_case.logout.LogoutOutputBoundary;
 import use_case.signup.SignupInputBoundary;
 import use_case.signup.SignupInteractor;
 import use_case.signup.SignupOutputBoundary;
-import view.LoggedInView;
-import view.LoginView;
-import view.SignupView;
-import view.ViewManager;
+import view.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -57,6 +62,10 @@ public class AppBuilder {
     private LoggedInView loggedInView;
     private LoginView loginView;
 
+    private CalendarFlowViewModel calendarFlowViewModel;
+    private CalendarView calendarView;
+    private EventListByDateView eventListByDateView;
+
     public AppBuilder() {
         cardPanel.setLayout(cardLayout);
     }
@@ -81,6 +90,23 @@ public class AppBuilder {
         cardPanel.add(loggedInView, loggedInView.getViewName());
         return this;
     }
+
+    public AppBuilder addCalendarViews() {
+        calendarFlowViewModel = new CalendarFlowViewModel();
+        eventListByDateView = new EventListByDateView(calendarFlowViewModel);
+        calendarView = new CalendarView();
+        cardPanel.add(calendarView, "calendar view");
+        cardPanel.add(eventListByDateView, calendarFlowViewModel.getViewName()); // "event list by date"
+
+        // Back button from list → calendar implement when combining project
+//        eventListByDateView.setBackButtonAction(e -> {
+//            viewManagerModel.setState("calendar view");
+//            viewManagerModel.firePropertyChange();
+//        });
+
+        return this;
+    }
+
 
     public AppBuilder addSignupUseCase() {
         final SignupOutputBoundary signupOutputBoundary = new SignupPresenter(viewManagerModel,
@@ -129,6 +155,18 @@ public class AppBuilder {
 
         final LogoutController logoutController = new LogoutController(logoutInteractor);
         loggedInView.setLogoutController(logoutController);
+        return this;
+    }
+
+    public AppBuilder addCalendarFlowUseCase() {
+        CalendarFlowDataAccessInterface calendarGateway = new CalendarFlowDataAccessObject();
+        CalendarFlowOutputBoundary calendarOutputBoundary =
+                new CalendarFlowPresenter(calendarFlowViewModel, viewManagerModel);
+        CalendarFlowInputBoundary calendarInteractor =
+                new CalendarFlowInteractor(calendarGateway, calendarOutputBoundary);
+        CalendarFlowController calendarController = new CalendarFlowController(calendarInteractor);
+        calendarView.setEventController(calendarController);
+
         return this;
     }
 

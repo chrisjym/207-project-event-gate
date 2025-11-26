@@ -26,7 +26,7 @@ public class EventListByDateView extends JPanel implements PropertyChangeListene
 
     private final JLabel emptyStateLabel = new JLabel("No events found for this date.", SwingConstants.CENTER);
     private final JButton backButton = new JButton("← Back to DashBoard");
-    private final String textFont = "Arial";
+    private final String textFont = "SegoeUI";
 
     public EventListByDateView(CalendarFlowViewModel calendarFlowViewModel) {
         this.calendarFlowViewModel = calendarFlowViewModel;
@@ -55,6 +55,8 @@ public class EventListByDateView extends JPanel implements PropertyChangeListene
         topPanel.setBackground(new Color(25, 118, 210));
 
         backButton.setFocusPainted(false);
+        backButton.setContentAreaFilled(true);
+        backButton.setOpaque(true);
         backButton.setBackground(Color.WHITE);
         backButton.setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createLineBorder(new Color(220, 220, 220)),
@@ -186,9 +188,14 @@ public class EventListByDateView extends JPanel implements PropertyChangeListene
         JButton exploreButton = new JButton("→");
         exploreButton.setFont(new Font(textFont, Font.BOLD, 20));
         exploreButton.setFocusPainted(false);
+
+        exploreButton.setOpaque(true);
+        exploreButton.setContentAreaFilled(true);
+        exploreButton.setBorderPainted(false);
+
         exploreButton.setBackground(new Color(25, 118, 210));
         exploreButton.setForeground(Color.WHITE);
-        exploreButton.setBorder(new EmptyBorder(5, 15, 5, 15));
+        exploreButton.setBorder(new EmptyBorder(5, 20, 5, 20));
         exploreButton.setPreferredSize(new Dimension(60, 60));
 
         //Place to links
@@ -197,7 +204,12 @@ public class EventListByDateView extends JPanel implements PropertyChangeListene
             System.out.println("Explore event: " + event.getName());
         });
 
-        card.add(exploreButton, BorderLayout.EAST);
+        JPanel arrowWrapper = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
+        arrowWrapper.setOpaque(false);
+        arrowWrapper.add(exploreButton);
+
+        card.add(arrowWrapper, BorderLayout.EAST);
+//        card.add(exploreButton, BorderLayout.EAST);
 
         return card;
     }
