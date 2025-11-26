@@ -10,7 +10,6 @@ import view.EventDescriptionView;
 
 
 import data_access.FileUserDataAccessObject;
-import data_access.EventDataAccessObject;
 import entity.Location;
 
 import data_access.TicketmasterEventRepositoryAdapter;
