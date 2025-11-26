@@ -38,7 +38,6 @@ public class DisplayLocalEventsPresenter implements DisplayLocalEventsOutputBoun
                 distanceText = String.format("%.1f km", distance);
             }
 
-            // Build an EventCard from the domain Event
             DisplayLocalEventsViewModel.EventCard card =
                     new DisplayLocalEventsViewModel.EventCard(
                             event.getId(),
@@ -53,22 +52,18 @@ public class DisplayLocalEventsPresenter implements DisplayLocalEventsOutputBoun
             cards.add(card);
         }
 
-        // Update ViewModel
         viewModel.setEventCards(cards);
         viewModel.setMessage(outputData.getMessage());
-        viewModel.setError("");  // clear any previous error
+        viewModel.setError("");
 
-        // If your project uses PropertyChangeSupport or observers,
-        // this is where you would fire events to notify the UI to re-render.
     }
 
     @Override
     public void presentError(String errorMessage) {
-        // On error: clear event list, clear success message, set error
+
         viewModel.setEventCards(List.of());
         viewModel.setMessage("");
         viewModel.setError(errorMessage != null ? errorMessage : "Unknown error");
 
-        // Again, you could notify the UI here if you use an observer pattern.
     }
 }

@@ -18,10 +18,10 @@ public class DisplayLocalEventsViewModel {
     public static class EventCard {
         private final String id;
         private final String name;
-        private final String dateTime;     // formatted date-time string
+        private final String dateTime;
         private final String address;
         private final String category;
-        private final String distanceText; // formatted distance, e.g., "3.2 km"
+        private final String distanceText;
         private final String imageUrl;
 
         public EventCard(String id,
@@ -40,7 +40,6 @@ public class DisplayLocalEventsViewModel {
             this.imageUrl = imageUrl;
         }
 
-        // ====== Getters for UI ======
 
         public String getId() {
             return id;

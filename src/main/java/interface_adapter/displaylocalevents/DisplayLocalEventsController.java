@@ -31,7 +31,6 @@ public class DisplayLocalEventsController {
     public void display(Location userLocation, double radiusKm, String categoryOrNull) {
         EventCategory category = null;
 
-        // "ALL", empty string, or null = no category filter
         if (categoryOrNull != null && !categoryOrNull.isBlank()
                 && !categoryOrNull.equalsIgnoreCase("ALL")) {
             category = EventCategory.fromString(categoryOrNull);
