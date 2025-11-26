@@ -13,10 +13,14 @@ import data_access.FileUserDataAccessObject;
 import entity.Location;
 import data_access.EventDataAccessObject;
 import data_access.TicketmasterEventRepositoryAdapter;
+import data_access.CalendarFlowDataAccessObject;
 import data_access.SearchEventDataAccessObject;
 import data_access.FileSavedEventsDataAccessObject;
 import entity.UserFactory;
 import interface_adapter.ViewManagerModel;
+import interface_adapter.calendarFlow.CalendarFlowViewModel;
+import interface_adapter.calendarFlow.CalendarFlowPresenter;
+import interface_adapter.calendarFlow.CalendarFlowController;
 import interface_adapter.logged_in.ChangePasswordController;
 import interface_adapter.logged_in.ChangePasswordPresenter;
 import interface_adapter.logged_in.LoggedInViewModel;
@@ -33,6 +37,10 @@ import interface_adapter.search_event_by_name.SearchEventByNameViewModel;
 import interface_adapter.signup.SignupController;
 import interface_adapter.signup.SignupPresenter;
 import interface_adapter.signup.SignupViewModel;
+import use_case.calendarFlow.CalendarFlowInputBoundary;
+import use_case.calendarFlow.CalendarFlowInteractor;
+import use_case.calendarFlow.CalendarFlowOutputBoundary;
+import use_case.calendarFlow.CalendarFlowDataAccessInterface;
 import interface_adapter.save_event.SaveEventController;
 import interface_adapter.save_event.SaveEventPresenter;
 import interface_adapter.save_event.SaveEventViewModel;
@@ -59,6 +67,7 @@ import use_case.search_event_by_name.SearchEventByNameOutputBoundary;
 import use_case.signup.SignupInputBoundary;
 import use_case.signup.SignupInteractor;
 import use_case.signup.SignupOutputBoundary;
+import view.*;
 
 import use_case.display_local_events.DisplayLocalEventsInputBoundary;
 import use_case.display_local_events.DisplayLocalEventsInteractor;
@@ -113,6 +122,10 @@ public class AppBuilder {
     private SaveButtonView saveButtonView;
 
 
+    private CalendarFlowViewModel calendarFlowViewModel;
+    private CalendarView calendarView;
+    private EventListByDateView eventListByDateView;
+
     private DisplayLocalEventsViewModel displayLocalEventsViewModel;
     private DisplayLocalEventsView displayLocalEventsView;
 
@@ -138,6 +151,22 @@ public class AppBuilder {
         loggedInViewModel = new LoggedInViewModel();
         loggedInView = new LoggedInView(loggedInViewModel);
         cardPanel.add(loggedInView, loggedInView.getViewName());
+        return this;
+    }
+
+    public AppBuilder addCalendarViews() {
+        calendarFlowViewModel = new CalendarFlowViewModel();
+        eventListByDateView = new EventListByDateView(calendarFlowViewModel);
+        calendarView = new CalendarView();
+        cardPanel.add(calendarView, "calendar view");
+        cardPanel.add(eventListByDateView, calendarFlowViewModel.getViewName()); // "event list by date"
+
+        // Back button from list → calendar implement when combining project
+//        eventListByDateView.setBackButtonAction(e -> {
+//            viewManagerModel.setState("calendar view");
+//            viewManagerModel.firePropertyChange();
+//        });
+
         return this;
     }
 
@@ -274,6 +303,18 @@ public class AppBuilder {
 
         final LogoutController logoutController = new LogoutController(logoutInteractor);
         loggedInView.setLogoutController(logoutController);
+        return this;
+    }
+
+    public AppBuilder addCalendarFlowUseCase() {
+        CalendarFlowDataAccessInterface calendarGateway = new CalendarFlowDataAccessObject();
+        CalendarFlowOutputBoundary calendarOutputBoundary =
+                new CalendarFlowPresenter(calendarFlowViewModel, viewManagerModel);
+        CalendarFlowInputBoundary calendarInteractor =
+                new CalendarFlowInteractor(calendarGateway, calendarOutputBoundary);
+        CalendarFlowController calendarController = new CalendarFlowController(calendarInteractor);
+        calendarView.setEventController(calendarController);
+
         return this;
     }
 

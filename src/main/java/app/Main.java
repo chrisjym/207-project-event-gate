@@ -16,6 +16,7 @@ public class Main {
                 .addLoginView()
                 .addSignupView()
                 .addLoggedInView()
+                .addCalendarViews()
                 .addEventDescriptionView()       // NEW
                 .addDisplayLocalEventsView()
                 .addSaveEventView()
@@ -24,6 +25,7 @@ public class Main {
                 .addLoginUseCase()
                 .addChangePasswordUseCase()
                 .addLogoutUseCase()
+                .addCalendarFlowUseCase()
                 .addEventDescriptionUseCase()    // NEW
                 .addSaveEventUseCase()
                 .addDisplayLocalEventsUseCase()
