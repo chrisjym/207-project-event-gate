@@ -1,10 +1,8 @@
 package interface_adapter.search_event_by_name;
 
 import interface_adapter.ViewManagerModel;
-import interface_adapter.login.LoginViewModel;
 import use_case.search_event_by_name.SearchEventByNameOutputBoundary;
 import use_case.search_event_by_name.SearchEventByNameOutputData;
-import view.LoginView;
 
 public class SearchEventByNamePresenter implements SearchEventByNameOutputBoundary {
 

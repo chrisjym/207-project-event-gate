@@ -5,18 +5,18 @@ import use_case.save_event.SaveEventInputBoundary;
 import use_case.save_event.SaveEventInputData;
 
 public class SaveEventController {
-    private final SaveEventInputBoundary saveEventUseCase;
+    private final SaveEventInputBoundary saveEventInteractor;
 
     public SaveEventController(SaveEventInputBoundary saveEventUseCase) {
-        this.saveEventUseCase = saveEventUseCase;
+        this.saveEventInteractor = saveEventUseCase;
     }
 
     public void saveEvent(Event event) {
         SaveEventInputData inputData = new SaveEventInputData(event);
-        saveEventUseCase.execute(inputData);
+        saveEventInteractor.execute(inputData);
     }
 
     public void switchToDashboardView() {
-        saveEventUseCase.switchToDashboardView();
+        saveEventInteractor.switchToDashboardView();
     }
 }

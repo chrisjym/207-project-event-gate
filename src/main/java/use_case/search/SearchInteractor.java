@@ -9,6 +9,8 @@ public class SearchInteractor implements SearchInputBoundary {
 
     private final SearchEventByNameDataAccessInterface eventDataAccess;
     private final SearchOutputBoundary searchPresenter;
+    private final double RADIUS_KM = 50.0;
+
 
     public SearchInteractor(SearchEventByNameDataAccessInterface eventDataAccess,
                             SearchOutputBoundary searchPresenter) {
@@ -24,13 +26,12 @@ public class SearchInteractor implements SearchInputBoundary {
         }
 
         Location userLocation = inputData.getLocation();
-        double radiusKm = 50.0;
 
         // Search for events
         List<Event> events = eventDataAccess.searchEventsByName(
                 inputData.getQuery(),
                 userLocation,
-                radiusKm
+                RADIUS_KM
         );
 
         if (events.isEmpty()) {

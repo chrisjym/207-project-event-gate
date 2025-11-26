@@ -4,8 +4,6 @@ import interface_adapter.ViewManagerModel;
 import use_case.save_event.SaveEventOutputBoundary;
 import use_case.save_event.SaveEventOutputData;
 
-import java.awt.*;
-
 public class SaveEventPresenter implements SaveEventOutputBoundary {
 
     private final SaveEventViewModel saveEventViewModel;
