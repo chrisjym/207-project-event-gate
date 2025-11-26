@@ -1,7 +1,6 @@
 package view;
 
 import interface_adapter.event_description.EventDescriptionViewModel;
-import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 import javax.swing.border.CompoundBorder;
@@ -33,17 +32,26 @@ public class EventDescriptionView extends JPanel implements PropertyChangeListen
         setLayout(new BorderLayout(0, 24));
         setBorder(new EmptyBorder(24, 32, 24, 32));
 
-        // title
+        // ---------- Title (event name) ----------
         titleLabel.setFont(new Font("SansSerif", Font.BOLD, 28));
         titleLabel.setForeground(new Color(20, 20, 20));
         add(titleLabel, BorderLayout.NORTH);
 
-        // image area
-        JPanel imagePanel = getJPanel();
+        // ---------- Image area ----------
+        JPanel imagePanel = new JPanel();
+        imagePanel.setPreferredSize(new Dimension(600, 220));
+        imagePanel.setBackground(new Color(240, 244, 252)); // light blue-ish
+        imagePanel.setBorder(new LineBorder(new Color(220, 228, 240)));
+
+        JLabel imagePlaceholder = new JLabel("Event image", SwingConstants.CENTER);
+        imagePlaceholder.setFont(new Font("SansSerif", Font.PLAIN, 14));
+        imagePlaceholder.setForeground(new Color(130, 140, 160));
+        imagePanel.setLayout(new BorderLayout());
+        imagePanel.add(imagePlaceholder, BorderLayout.CENTER);
 
         add(imagePanel, BorderLayout.CENTER);
 
-        // details card
+        // ---------- Details card ----------
         JPanel detailsCard = new JPanel(new GridBagLayout());
         detailsCard.setBackground(Color.WHITE);
         detailsCard.setBorder(new CompoundBorder(
@@ -67,7 +75,7 @@ public class EventDescriptionView extends JPanel implements PropertyChangeListen
 
         add(detailsCard, BorderLayout.SOUTH);
 
-        // fake sample data for now
+        // ---------- Fake sample data for now ----------
         viewModel.setEventDetails(
                 "Live at the Park",
                 "An outdoor evening concert featuring local bands and food trucks.",
@@ -78,21 +86,9 @@ public class EventDescriptionView extends JPanel implements PropertyChangeListen
         );
     }
 
-    @NotNull
-    private static JPanel getJPanel() {
-        JPanel imagePanel = new JPanel();
-        imagePanel.setPreferredSize(new Dimension(600, 220));
-        imagePanel.setBackground(new Color(240, 244, 252)); // light blue-ish
-        imagePanel.setBorder(new LineBorder(new Color(220, 228, 240)));
-
-        JLabel imagePlaceholder = new JLabel("Event image", SwingConstants.CENTER);
-        imagePlaceholder.setFont(new Font("SansSerif", Font.PLAIN, 14));
-        imagePlaceholder.setForeground(new Color(130, 140, 160));
-        imagePanel.setLayout(new BorderLayout());
-        imagePanel.add(imagePlaceholder, BorderLayout.CENTER);
-        return imagePanel;
-    }
-
+    /**
+     * Helper to add one row ("Label:" + value) with blue label styling.
+     */
     private void addRow(JPanel panel, GridBagConstraints gbc, int row,
                         String labelText, JLabel valueLabel) {
 
@@ -122,7 +118,7 @@ public class EventDescriptionView extends JPanel implements PropertyChangeListen
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        // update UI from ViewModel
+        // Update UI from the ViewModel
         titleLabel.setText(viewModel.getName());
 
         nameValueLabel.setText(viewModel.getName());
