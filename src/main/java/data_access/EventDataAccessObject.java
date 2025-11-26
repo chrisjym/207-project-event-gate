@@ -14,7 +14,7 @@ import java.util.List;
 
 public class EventDataAccessObject {
 
-    private static final String API_KEY = "oL2pW4zAlAZvhBAhPNi5mNYvS7OsBM9J"; // Replace with your actual API key
+    private static final String API_KEY = "oL2pW4zAlAZvhBAhPNi5mNYvS7OsBM9J"; // Replace with actual API key
     private static final String BASE_URL = "https://app.ticketmaster.com/discovery/v2";
     private static final String EVENTS_ENDPOINT = "/events.json";
 
@@ -89,7 +89,6 @@ public class EventDataAccessObject {
 
         try (Response response = client.newCall(request).execute()) {
             if (!response.isSuccessful()) {
-                System.err.println("Failed to fetch event: " + response.code());
                 return null;
             }
 
@@ -99,7 +98,6 @@ public class EventDataAccessObject {
             return parseEvent(eventJson);
 
         } catch (IOException e) {
-            System.err.println("Error fetching event by ID: " + e.getMessage());
             return null;
         }
     }
@@ -111,7 +109,7 @@ public class EventDataAccessObject {
                 .url(url)
                 .build();
 
-        try (Response response = client.newCall(request).execute()) {
+        try (Response response = client.newCall(request).execute()){
             if (!response.isSuccessful()) {
                 System.err.println("Failed to fetch events: " + response.code());
                 return events;

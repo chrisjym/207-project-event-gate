@@ -33,21 +33,19 @@ public class SearchBarView extends JPanel {
 
     private JPanel initComponents(String text) {
         JPanel container = new JPanel(new BorderLayout()) {
+            // Written with the help of generative AI
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
                 Graphics2D g2 = (Graphics2D) g.create();
                 g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-                // Draw subtle shadow
                 g2.setColor(new Color(0, 0, 0, 15));
                 g2.fillRoundRect(1, 3, getWidth() - 2, getHeight() - 3, 30, 30);
 
-                // Draw background
                 g2.setColor(backgroundColor);
                 g2.fillRoundRect(0, 0, getWidth() - 2, getHeight() - 4, 30, 30);
 
-                // Draw border
                 g2.setColor(isFocused ? focusBorderColor : borderColor);
                 g2.setStroke(new BasicStroke(1.5f));
                 g2.drawRoundRect(0, 0, getWidth() - 2, getHeight() - 4, 30, 30);

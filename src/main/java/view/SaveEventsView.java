@@ -116,7 +116,7 @@ public class SaveEventsView extends JPanel implements PropertyChangeListener {
                 new EmptyBorder(20, 20, 20, 20)
         ));
         card.setMaximumSize(new Dimension(Integer.MAX_VALUE, 140));
-
+        // Written with the help of generative AI
         JPanel imagePanel = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
