@@ -17,17 +17,17 @@ public class SaveEventPresenter implements SaveEventOutputBoundary {
     @Override
     public void prepareSuccessView(SaveEventOutputData outputData) {
         SaveEventState currentState = saveEventViewModel.getState();
-        currentState.setEvent(outputData.getEvent());
+        currentState.addSavedEvent(outputData.getEvent());
         saveEventViewModel.setState(currentState);
-        saveEventViewModel.firePropertyChange("event");
+        saveEventViewModel.firePropertyChange();
     }
 
     @Override
     public void prepareFailureView(String errorMessage) {
         SaveEventState currentState = saveEventViewModel.getState();
-        currentState.setEvent(null);
+        currentState.addSavedEvent(null);
         saveEventViewModel.setState(currentState);
-        saveEventViewModel.firePropertyChange("error");
+        saveEventViewModel.firePropertyChange();
     }
 
     @Override
