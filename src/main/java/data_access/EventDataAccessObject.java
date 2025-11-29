@@ -14,7 +14,7 @@ import java.util.List;
 
 public class EventDataAccessObject {
 
-    private static final String API_KEY = "API_KEY"; // Replace with actual API key
+     private static final String API_KEY = "oL2pW4zAlAZvhBAhPNi5mNYvS7OsBM9J"; // Replace with actual API key
     private static final String BASE_URL = "https://app.ticketmaster.com/discovery/v2";
     private static final String EVENTS_ENDPOINT = "/events.json";
 
@@ -28,53 +28,61 @@ public class EventDataAccessObject {
      * Get events near a location within a radius
      */
     public List<Event> getEventsByLocation(Location location, double radiusKm) {
-        HttpUrl.Builder urlBuilder = HttpUrl.parse(BASE_URL + EVENTS_ENDPOINT).newBuilder();
-        urlBuilder.addQueryParameter("apikey", API_KEY);
-        urlBuilder.addQueryParameter("latlong",
-                String.format("%.6f,%.6f", location.getLatitude(), location.getLongitude()));
-        urlBuilder.addQueryParameter("radius", String.valueOf((int) radiusKm));
-        urlBuilder.addQueryParameter("unit", "km");
-        urlBuilder.addQueryParameter("size", "50");
-        urlBuilder.addQueryParameter("sort", "distance,asc");
+        String url = HttpUrl.parse(BASE_URL + EVENTS_ENDPOINT)
+                .newBuilder()
+                .addQueryParameter("apikey", API_KEY)
+                .addQueryParameter("latlong",
+                        String.format("%.6f,%.6f", location.getLatitude(), location.getLongitude()))
+                .addQueryParameter("radius", String.valueOf((int) radiusKm))
+                .addQueryParameter("unit", "km")
+                .addQueryParameter("size", "50")
+                .addQueryParameter("sort", "distance,asc")
+                .build()
+                .toString();
 
-        return fetchEvents(urlBuilder.build().toString());
+        return fetchEvents(url);
     }
 
     /**
      * Get events filtered by category
      */
     public List<Event> getEventsByCategory(Location location, double radiusKm, EventCategory category) {
-        HttpUrl.Builder urlBuilder = HttpUrl.parse(BASE_URL + EVENTS_ENDPOINT).newBuilder();
-        urlBuilder.addQueryParameter("apikey", API_KEY);
-        urlBuilder.addQueryParameter("latlong",
-                String.format("%.6f,%.6f", location.getLatitude(), location.getLongitude()));
-        urlBuilder.addQueryParameter("radius", String.valueOf((int) radiusKm));
-        urlBuilder.addQueryParameter("unit", "km");
-        urlBuilder.addQueryParameter("size", "50");
-        urlBuilder.addQueryParameter("sort", "distance,asc");
+        HttpUrl.Builder urlBuilder = HttpUrl.parse(BASE_URL + EVENTS_ENDPOINT)
+                .newBuilder()
+                .addQueryParameter("apikey", API_KEY)
+                .addQueryParameter("latlong",
+                        String.format("%.6f,%.6f", location.getLatitude(), location.getLongitude()))
+                .addQueryParameter("radius", String.valueOf((int) radiusKm))
+                .addQueryParameter("unit", "km")
+                .addQueryParameter("size", "50")
+                .addQueryParameter("sort", "distance,asc");
 
         String classificationName = mapCategoryToTicketmaster(category);
         if (classificationName != null) {
             urlBuilder.addQueryParameter("classificationName", classificationName);
         }
 
-        return fetchEvents(urlBuilder.build().toString());
+        String url = urlBuilder.build().toString();
+        return fetchEvents(url);
     }
 
     /**
      * Search events by name/keyword
      */
     public List<Event> searchEventsByName(String keyword, Location location, double radiusKm) {
-        HttpUrl.Builder urlBuilder = HttpUrl.parse(BASE_URL + EVENTS_ENDPOINT).newBuilder();
-        urlBuilder.addQueryParameter("apikey", API_KEY);
-        urlBuilder.addQueryParameter("keyword", keyword);
-        urlBuilder.addQueryParameter("latlong",
-                String.format("%.6f,%.6f", location.getLatitude(), location.getLongitude()));
-        urlBuilder.addQueryParameter("radius", String.valueOf((int) radiusKm));
-        urlBuilder.addQueryParameter("unit", "km");
-        urlBuilder.addQueryParameter("size", "50");
+        String url = HttpUrl.parse(BASE_URL + EVENTS_ENDPOINT)
+                .newBuilder()
+                .addQueryParameter("apikey", API_KEY)
+                .addQueryParameter("keyword", keyword)
+                .addQueryParameter("latlong",
+                        String.format("%.6f,%.6f", location.getLatitude(), location.getLongitude()))
+                .addQueryParameter("radius", String.valueOf((int) radiusKm))
+                .addQueryParameter("unit", "km")
+                .addQueryParameter("size", "50")
+                .build()
+                .toString();
 
-        return fetchEvents(urlBuilder.build().toString());
+        return fetchEvents(url);
     }
 
     /**

@@ -17,19 +17,21 @@ public class Main {
                 .addSignupView()
                 .addLoggedInView()
                 .addCalendarViews()
-                .addEventDescriptionView()       // NEW
+                .addEventDescriptionView()
                 .addDisplayLocalEventsView()
                 .addSaveEventView()
+                .addDisplayLocalEventsView()
                 .addEventSearchView()
                 .addSignupUseCase()
                 .addLoginUseCase()
                 .addChangePasswordUseCase()
                 .addLogoutUseCase()
                 .addCalendarFlowUseCase()
-                .addEventDescriptionUseCase()    // NEW
                 .addSaveEventUseCase()
+                .addEventDescriptionUseCase()    // NEW
                 .addDisplayLocalEventsUseCase()
                 .addSearchEventByNameUseCase()
+                .addUpdateLocationUseCase()
                 .build();
 
         application.pack();
