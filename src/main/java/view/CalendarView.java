@@ -151,6 +151,10 @@ public class  CalendarView extends JPanel implements ActionListener {
 
     }
 
+    public String getViewName(){
+        return viewName;
+    }
+
     public void actionPerformed(ActionEvent evt) {
         System.out.println("Click " + evt.getActionCommand());
     }
