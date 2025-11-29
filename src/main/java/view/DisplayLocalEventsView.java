@@ -33,6 +33,9 @@ public class DisplayLocalEventsView extends JPanel implements PropertyChangeList
 
     private DisplayLocalEventsController controller;
     private final DisplayLocalEventsViewModel viewModel;
+
+    private CalendarView calendarView;
+
     private final String viewName = "display local events";
 
     // Location components
@@ -175,6 +178,11 @@ public class DisplayLocalEventsView extends JPanel implements PropertyChangeList
                     state.getError(),
                     "Location Error", JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+
+    public void setCalendarView(CalendarView calendarView) {
+        this.calendarView = calendarView;
     }
 
     /**
@@ -659,6 +667,12 @@ public class DisplayLocalEventsView extends JPanel implements PropertyChangeList
     }
 
     private void navigateToCalendar() {
+        Location userLoc = getCurrentLocation();
+        if (calendarView != null) {
+            calendarView.setUserLocation(userLoc);
+            calendarView.setSearchRadiusKm(DEFAULT_RADIUS_KM);
+        }
+
         if (viewManagerModel != null) {
             viewManagerModel.setState("calendar view");
             viewManagerModel.firePropertyChange();

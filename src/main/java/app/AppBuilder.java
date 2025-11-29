@@ -214,6 +214,8 @@ public class AppBuilder {
         displayLocalEventsViewModel = new DisplayLocalEventsViewModel();
         displayLocalEventsView = new DisplayLocalEventsView(displayLocalEventsViewModel);
         displayLocalEventsView.setViewManagerModel(viewManagerModel);
+        displayLocalEventsView.setViewManagerModel(viewManagerModel);
+        displayLocalEventsView.setCalendarView(calendarView);
         cardPanel.add(displayLocalEventsView, displayLocalEventsView.getViewName());
         return this;
     }
@@ -334,6 +336,8 @@ public class AppBuilder {
                 new CalendarFlowInteractor(calendarGateway, calendarOutputBoundary);
         CalendarFlowController calendarController = new CalendarFlowController(calendarInteractor);
         calendarView.setEventController(calendarController);
+        eventListByDateView.setController(calendarController);
+
 
         return this;
     }
