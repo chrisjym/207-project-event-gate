@@ -17,7 +17,8 @@ public class Main {
                 .addSignupView()
                 .addLoggedInView()
                 .addCalendarViews()
-                .addEventDescriptionView()       // NEW
+                .addEventDescriptionView()
+                .addDisplayLocalEventsView()
                 .addSaveEventView()
                 .addDisplayLocalEventsView()
                 .addEventSearchView()
@@ -30,6 +31,7 @@ public class Main {
                 .addEventDescriptionUseCase()    // NEW
                 .addDisplayLocalEventsUseCase()
                 .addSearchEventByNameUseCase()
+                .addUpdateLocationUseCase()
                 .build();
 
         application.pack();
