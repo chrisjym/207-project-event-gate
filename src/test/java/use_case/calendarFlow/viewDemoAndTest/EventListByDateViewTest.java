@@ -1,4 +1,4 @@
-package use_case.calendarFlow;
+package use_case.calendarFlow.viewDemoAndTest;
 
 import entity.Event;
 import entity.EventCategory;

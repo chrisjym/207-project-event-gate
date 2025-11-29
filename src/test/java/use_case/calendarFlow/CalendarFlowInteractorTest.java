@@ -30,6 +30,7 @@ public class CalendarFlowInteractorTest {
         interactor = new CalendarFlowInteractor(mockDataAccess, mockPresenter);
     }
 
+
     @Test
     public void testSuccessfulEventRetrieval() {
         // Setup test data
@@ -86,6 +87,20 @@ public class CalendarFlowInteractorTest {
         assertTrue(mockPresenter.isFailViewCalled());
         assertFalse(mockPresenter.isSuccessViewCalled());
         assertEquals("Date cannot be null", mockPresenter.getErrorMessage());
+    }
+
+    @Test
+    public void testNullEventList() {
+        mockDataAccess.setReturnNull(true);
+
+        LocalDate date = LocalDate.of(2024, 11, 22);
+        Location location = new Location("Toronto, ON", 43.6532, -79.3832);
+        CalendarFlowInputData inputData = new CalendarFlowInputData(date, location, 50.0);
+
+        interactor.execute(inputData);
+
+        assertTrue(mockPresenter.isFailViewCalled());
+        assertTrue(mockPresenter.getErrorMessage().contains("No events found"));
     }
 
     @Test
@@ -166,9 +181,14 @@ public class CalendarFlowInteractorTest {
     private static class MockCalendarFlowDataAccess implements CalendarFlowDataAccessInterface {
         private boolean returnEmptyList = false;
         private boolean shouldThrowException = false;
+        private boolean returnNull = false;
 
         public void setReturnEmptyList(boolean returnEmptyList) {
             this.returnEmptyList = returnEmptyList;
+        }
+
+        public void setReturnNull(boolean returnNull) {
+            this.returnNull = returnNull;
         }
 
         public void setShouldThrowException(boolean shouldThrowException) {
@@ -180,7 +200,9 @@ public class CalendarFlowInteractorTest {
             if (shouldThrowException) {
                 throw new RuntimeException("API connection failed");
             }
-
+            if (returnNull) {
+                return null;
+            }
             if (returnEmptyList) {
                 return new ArrayList<>();
             }
@@ -205,7 +227,7 @@ public class CalendarFlowInteractorTest {
                     "2",
                     "Drake Concert",
                     "Music concert",
-                    "toronto",
+                    "Toronto",
                     EventCategory.MUSIC,
                     loc2,
                     LocalDateTime.of(2024, 11, 22, 20, 30),
@@ -217,7 +239,7 @@ public class CalendarFlowInteractorTest {
                     "3",
                     "Comedy Night",
                     "Comedy show",
-                    "toronto2",
+                    "Toronto2",
                     EventCategory.ARTS_THEATRE,
                     loc3,
                     LocalDateTime.of(2024, 11, 22, 21, 0),

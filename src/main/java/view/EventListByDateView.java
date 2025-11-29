@@ -61,16 +61,23 @@ public class EventListByDateView extends JPanel implements PropertyChangeListene
         topPanel.setBackground(new Color(25, 118, 210));
 
         backButton.setFocusPainted(false);
-        backButton.setContentAreaFilled(true);
-        backButton.setOpaque(true);
         backButton.setBackground(Color.WHITE);
+        backButton.setForeground(Color.BLACK);
+        backButton.setContentAreaFilled(true);
+        backButton.setBorderPainted(true);
         backButton.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createLineBorder(new Color(220, 220, 220)),
-                new EmptyBorder(6, 12, 6, 12)
+                BorderFactory.createLineBorder(new Color(220, 220, 220), 1),
+                new EmptyBorder(8, 15, 8, 15)
                 )
         );
         backButton.setFont(new Font(textFont, Font.PLAIN, 12));
-        backButton.addActionListener(e -> {
+        backButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        try {
+            backButton.setUI(new javax.swing.plaf.basic.BasicButtonUI());
+        } catch (Exception e) {
+        }
+
+            backButton.addActionListener(e -> {
             System.out.println("back button pressed");
             if (calendarFlowController != null) {
                 calendarFlowController.switchToDashboardView();
@@ -114,23 +121,8 @@ public class EventListByDateView extends JPanel implements PropertyChangeListene
         } else if (state.getErrorMessage() != null) {
             renderError(state.getErrorMessage());
         }
-//        else {
-//            noEventUI();
-//        }
     }
 
-//    private void noEventUI() {
-//        eventsContainer.removeAll();
-//        eventsContainer.setLayout(new BorderLayout());
-//
-//        emptyStateLabel.setFont(new Font(textFont, Font.PLAIN, 16));
-//        emptyStateLabel.setForeground(new Color(120, 120, 120));
-//
-//        eventsContainer.add(emptyStateLabel, BorderLayout.CENTER);
-//        eventsContainer.revalidate(); // re-run layout
-//        eventsContainer.repaint(); // redraw the graphics
-//
-//    }
 
     private void renderError(String errorMessage) {
         eventsContainer.removeAll();
@@ -138,7 +130,6 @@ public class EventListByDateView extends JPanel implements PropertyChangeListene
 
         JLabel errorLabel = new JLabel(errorMessage, SwingConstants.CENTER);
         errorLabel.setFont(errorLabel.getFont().deriveFont(Font.PLAIN, 16f));
-//        errorLabel.setForeground(new Color(211, 47, 47));
         emptyStateLabel.setForeground(new Color(120, 120, 120));
 
         eventsContainer.add(errorLabel, BorderLayout.CENTER);
@@ -162,7 +153,7 @@ public class EventListByDateView extends JPanel implements PropertyChangeListene
 
     private JPanel buildEventCard(Event event) {
         JPanel card = new JPanel(new BorderLayout());
-        card.setMaximumSize(new Dimension(Integer.MAX_VALUE, 80));
+        card.setMaximumSize(new Dimension(Integer.MAX_VALUE, 100));
         card.setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createLineBorder(new Color(230, 230, 230), 1),
                 new EmptyBorder(12, 15, 12, 15)
@@ -198,18 +189,25 @@ public class EventListByDateView extends JPanel implements PropertyChangeListene
         card.add(infoPanel, BorderLayout.CENTER);
 
         //button that links to Joy's usecase
-        JButton exploreButton = new JButton("→");
+        JButton exploreButton = new JButton("<html>→</html> ");
         exploreButton.setFont(new Font(textFont, Font.BOLD, 20));
         exploreButton.setFocusPainted(false);
 
         exploreButton.setOpaque(true);
         exploreButton.setContentAreaFilled(true);
         exploreButton.setBorderPainted(false);
-
         exploreButton.setBackground(new Color(25, 118, 210));
         exploreButton.setForeground(Color.WHITE);
-        exploreButton.setBorder(new EmptyBorder(5, 20, 5, 20));
+        exploreButton.setBorder(BorderFactory.createEmptyBorder(15, 25, 15, 25));
         exploreButton.setPreferredSize(new Dimension(60, 60));
+        exploreButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+
+        try {
+            exploreButton.setUI(new javax.swing.plaf.basic.BasicButtonUI());
+        } catch (Exception e) {
+            // Fallback
+        }
+
 
         //Place to links
         exploreButton.addActionListener(e -> {
@@ -217,12 +215,7 @@ public class EventListByDateView extends JPanel implements PropertyChangeListene
             System.out.println("Explore event: " + event.getName());
         });
 
-        JPanel arrowWrapper = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
-        arrowWrapper.setOpaque(false);
-        arrowWrapper.add(exploreButton);
-
-        card.add(arrowWrapper, BorderLayout.EAST);
-//        card.add(exploreButton, BorderLayout.EAST);
+        card.add(exploreButton, BorderLayout.EAST);
 
         return card;
     }
